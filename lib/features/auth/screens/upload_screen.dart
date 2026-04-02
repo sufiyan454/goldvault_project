@@ -87,7 +87,7 @@ class UploadScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text("Upload $type"),
+        title: Text("KYC",style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -102,93 +102,98 @@ class UploadScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // TOP CONTENT (Cards)
-                  Column(
-                    children: [
-                      Text(
-                        "Upload $type",
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(height: 5),
-
-                      const Text(
-                        "Follow the guidelines and proceed",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      const SizedBox(height: 30),
-
-                      uploadBox(
-                        "Front Image (Slide with face)",
-                        uploadProvider.frontUploaded,
-                        () => showPicker(context, uploadProvider, true),
-                      ),
-                      
-                      uploadBox(
-                        "Back Image",
-                        uploadProvider.backUploaded,
-                         () => showPicker(context, uploadProvider, false),
-                      ),
-                    ],
+                
+                  Padding(
+                    padding: const EdgeInsets.only(top: 90),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Upload Passport",
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: 5),
+                    
+                        const Text(
+                          "Follow the guidelines and proceed",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(height: 30),
+                    
+                        uploadBox(
+                          "Front Image (Slide with face)",
+                          uploadProvider.frontUploaded,
+                          () => showPicker(context, uploadProvider, true),
+                        ),
+                        
+                        uploadBox(
+                          "Back Image",
+                          uploadProvider.backUploaded,
+                           () => showPicker(context, uploadProvider, false),
+                        ),
+                      ],
+                    ),
                   ),
 
-                  // BOTTOM CONTENT (Guidelines + Button)
-                  Column(
-                    children: [
-                      const Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.crop_free, color: AppColors.gold),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              "Capture the whole document, all 4 corners must be visible",
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 500),
+                    child: Column(
+                      children: [
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.crop_free, color: AppColors.gold),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "Capture the whole document, all 4 corners must be visible",
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-
-                      const Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.visibility_off, color: AppColors.gold),
-                          SizedBox(width: 10),
-                          Expanded(child: Text("Avoid glare, reflection and shadows.")),
-                        ],
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: GestureDetector(
-                          onTap: uploadProvider.isValid
-                              ? () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const KycProcessingScreen(),
-                                    ),
-                                  );
-                                }
-                              : null,
-                          child: Container(
-                            width: double.infinity,
-                            height: 55,
-                            decoration: BoxDecoration(
-                              color: uploadProvider.isValid ? AppColors.gold : Colors.grey,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              "Continue",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                    
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.visibility_off, color: AppColors.gold),
+                            SizedBox(width: 10),
+                            Expanded(child: Text("Avoid glare, reflection and shadows.")),
+                          ],
+                        ),
+                    
+                        Padding(
+                          padding: const EdgeInsets.only(top: 360),
+                          child: GestureDetector(
+                            onTap: uploadProvider.isValid
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const KycProcessingScreen(),
+                                      ),
+                                    );
+                                  }
+                                : null,
+                            child: Container(
+                              width: double.infinity,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                color: uploadProvider.isValid ? AppColors.gold : Colors.grey,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "Continue",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
