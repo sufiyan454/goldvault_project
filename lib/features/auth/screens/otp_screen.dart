@@ -42,82 +42,77 @@ class OtpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    const SizedBox(height: 60),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 60),
 
-                    const Text(
-                      "Enter OTP",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                      const Text(
+                        "Enter OTP",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                    Text(
-                      "Sent to ${authProvider.emailController.text} and ${authProvider.phoneController.text}",
-                      style: const TextStyle(color: Colors.grey),
-                    ),
+                      Text(
+                        "Sent to ${authProvider.emailController.text} and ${authProvider.phoneController.text}",
+                        style: const TextStyle(color: Colors.grey),
+                      ),
 
-                    const SizedBox(height: 30),
+                      const SizedBox(height: 30),
 
-                    const Text("Enter Email OTP *"),
-                    const SizedBox(height: 10),
-                    otpRow(authProvider, authProvider.emailOtp),
+                      const Text("Enter Email OTP *"),
+                      const SizedBox(height: 10),
+                      otpRow(authProvider, authProvider.emailOtp),
 
-                    const SizedBox(height: 10),
-                    Text(
-                      "Resend in 0:${authProvider.seconds.toString().padLeft(2, '0')}",
-                      style: const TextStyle(color: Colors.grey),
-                    ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Resend in 0:${authProvider.seconds.toString().padLeft(2, '0')}",
+                        style: const TextStyle(color: Colors.grey),
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    const Text("Enter Whatsapp OTP *"),
-                    const SizedBox(height: 10),
-                    otpRow(authProvider, authProvider.phoneOtp),
+                      const Text("Enter Whatsapp OTP *"),
+                      const SizedBox(height: 10),
+                      otpRow(authProvider, authProvider.phoneOtp),
 
-                    const SizedBox(height: 10),
-                    Text(
-                      "Resend in 0:${authProvider.seconds.toString().padLeft(2, '0')}",
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-
-                    const Spacer(),
-
-                    CustomButton(
-                      text: "Proceed",
-                      enabled: authProvider.isOtpValid,
-                      onTap: () {
-                        authProvider.disposeTimer();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const ProfileScreen(),
-                          ),
-                        );
-                      },
-                    ),
-
-                    const SizedBox(height: 20),
-                  ],
+                      const SizedBox(height: 10),
+                      Text(
+                        "Resend in 0:${authProvider.seconds.toString().padLeft(2, '0')}",
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
-            ),
+
+              CustomButton(
+                text: "Proceed",
+                enabled: authProvider.isOtpValid,
+                onTap: () {
+                  authProvider.disposeTimer();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ProfileScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-            );
-          },
         ),
       ),
     );
