@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  spinning_wheel: ^0.0.7
   provider: ^6.1.5+1
 
 dev_dependencies:
