@@ -82,39 +82,38 @@ class KycVerificationScreen extends StatelessWidget {
   }
 
   Widget docButton(BuildContext context, String title) {
-    return SizedBox(
-      height: 55,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFEAD9B5),
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+    return GestureDetector(
+      onTap: () {
+        if (title == "Emirates ID") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const UploadEmiratesScreen(type: '',),
+            ),
+          );
+        } else if (title == "Passport ID") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const UploadPassportScreen(type: '',),
+            ),
+          );
+        }
+      },
+      child: Container(
+        height: 55,
+        padding:
+            const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFEAD9B5),
+          borderRadius: BorderRadius.circular(8),
         ),
-        onPressed: () {
-          if (title == "Emirates ID") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const UploadEmiratesScreen(type: '',),
-              ),
-            );
-          } else if (title == "Passport ID") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const UploadPassportScreen(type: '',),
-              ),
-            );
-          }
-        },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment:
+              MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: const TextStyle(color: Colors.black87)),
-            const Icon(Icons.arrow_forward, color: Colors.black87),
+            Text(title),
+            const Icon(Icons.arrow_forward),
           ],
         ),
       ),

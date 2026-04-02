@@ -44,26 +44,27 @@ class KycSuccessScreen extends StatelessWidget {
               const SizedBox(height: 30),
 
               
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 214, 151, 56),
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
+              GestureDetector(
+                onTap: () {
+                 Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            const LoginScreen(),
+                      ),
+                    );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 30, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 214, 151, 56),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const LoginScreen(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  "Home",
-                  style: TextStyle(color: Colors.white),
+                  child: const Text(
+                    "Home",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

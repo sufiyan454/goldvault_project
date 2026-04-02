@@ -25,22 +25,19 @@ class LoginOtpScreen extends StatelessWidget {
   }
 
   Widget buildKey(String text, {VoidCallback? onTap}) {
-    return Padding(
-      padding: const EdgeInsets.all(6),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[200],
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: EdgeInsets.zero,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.all(6),
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(8),
         ),
-        onPressed: onTap,
         child: Center(
           child: Text(
             text,
-            style: const TextStyle(fontSize: 18, color: Colors.black87),
+            style: const TextStyle(fontSize: 18),
           ),
         ),
       ),
@@ -68,6 +65,7 @@ class LoginOtpScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // TOP CONTENT
                     Column(
                       children: [
                         Row(
@@ -122,6 +120,7 @@ class LoginOtpScreen extends StatelessWidget {
                       ],
                     ),
 
+                    // BOTTOM CONTENT
                     Column(
                       children: [
                         if (authProvider.isLoginOtpValid)
