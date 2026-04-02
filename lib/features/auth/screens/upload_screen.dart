@@ -1,22 +1,15 @@
 import 'package:demofile/features/auth/screens/kyc_processing_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../providers/upload_provider.dart';
 
-class UploadScreen extends StatefulWidget {
-  final String type; // Passport / Emirates ID
+class UploadScreen extends StatelessWidget {
+  final String type;
 
   const UploadScreen({super.key, required this.type});
 
-  @override
-  State<UploadScreen> createState() => _UploadScreenState();
-}
-
-class _UploadScreenState extends State<UploadScreen> {
-  bool frontUploaded = false;
-  bool backUploaded = false;
-
- 
-  void showPicker(bool isFront) {
+  void showPicker(BuildContext context, UploadProvider provider, bool isFront) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -29,8 +22,8 @@ class _UploadScreenState extends State<UploadScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              pickerItem(Icons.camera_alt, "Camera", isFront),
-              pickerItem(Icons.image, "Gallery", isFront),
+              pickerItem(context, provider, Icons.camera_alt, "Camera", isFront),
+              pickerItem(context, provider, Icons.image, "Gallery", isFront),
             ],
           ),
         );
@@ -38,19 +31,15 @@ class _UploadScreenState extends State<UploadScreen> {
     );
   }
 
-  
-  Widget pickerItem(IconData icon, String text, bool isFront) {
+  Widget pickerItem(BuildContext context, UploadProvider provider, IconData icon, String text, bool isFront) {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
-
-        setState(() {
-          if (isFront) {
-            frontUploaded = true;
-          } else {
-            backUploaded = true;
-          }
-        });
+        if (isFront) {
+          provider.uploadFront();
+        } else {
+          provider.uploadBack();
+        }
       },
       child: Column(
         children: [
@@ -66,7 +55,6 @@ class _UploadScreenState extends State<UploadScreen> {
     );
   }
 
-  
   Widget uploadBox(String title, bool uploaded, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
@@ -92,109 +80,116 @@ class _UploadScreenState extends State<UploadScreen> {
     );
   }
 
-  bool get isValid => frontUploaded && backUploaded;
-
   @override
   Widget build(BuildContext context) {
+    final uploadProvider = context.watch<UploadProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text("Upload ${widget.type}"),
+        title: Text("Upload $type"),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
 
-            Text(
-              "Upload ${widget.type}",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-
-            const SizedBox(height: 5),
-
-            const Text(
-              "Follow the guidelines and proceed",
-              style: TextStyle(color: Colors.grey),
-            ),
-
-            const SizedBox(height: 30),
-
-            uploadBox(
-              "Front Image (Slide with face)",
-              frontUploaded,
-              () => showPicker(true),
-            ),
-
-            
-            uploadBox("Back Image", backUploaded, () => showPicker(false)),
-
-            const SizedBox(height: 20),
-
-           
-            const Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.crop_free, color: AppColors.gold),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    "Capture the whole document, all 4 corners must be visible",
+                  Text(
+                    "Upload $type",
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(height: 5),
 
-            const SizedBox(height: 10),
+                  const Text(
+                    "Follow the guidelines and proceed",
+                    style: TextStyle(color: Colors.grey),
+                  ),
 
-            const Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.visibility_off, color: AppColors.gold),
-                SizedBox(width: 10),
-                Expanded(child: Text("Avoid glare, reflection and shadows.")),
-              ],
-            ),
+                  const SizedBox(height: 30),
 
-            const Spacer(),
+                  uploadBox(
+                    "Front Image (Slide with face)",
+                    uploadProvider.frontUploaded,
+                    () => showPicker(context, uploadProvider, true),
+                  ),
+                  
+                  uploadBox(
+                    "Back Image",
+                    uploadProvider.backUploaded,
+                     () => showPicker(context, uploadProvider, false),
+                  ),
 
-            GestureDetector(
-              onTap: isValid
-                  ? () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const KycProcessingScreen(),
+                  const SizedBox(height: 20),
+
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.crop_free, color: AppColors.gold),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Capture the whole document, all 4 corners must be visible",
                         ),
-                      );
-                    }
-                  : null,
-              child: Container(
-                width: double.infinity,
-                height: 55,
-                decoration: BoxDecoration(
-                  color: isValid ? AppColors.gold : Colors.grey,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-
-                alignment: Alignment.center,
-                child: const Text(
-                  "Continue",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                      ),
+                    ],
                   ),
-                ),
+
+                  const SizedBox(height: 10),
+
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.visibility_off, color: AppColors.gold),
+                      SizedBox(width: 10),
+                      Expanded(child: Text("Avoid glare, reflection and shadows.")),
+                    ],
+                  ),
+
+                  const Spacer(),
+
+                  GestureDetector(
+                    onTap: uploadProvider.isValid
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const KycProcessingScreen(),
+                              ),
+                            );
+                          }
+                        : null,
+                    child: Container(
+                      width: double.infinity,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: uploadProvider.isValid ? AppColors.gold : Colors.grey,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "Continue",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+                ],
               ),
             ),
-
-            const SizedBox(height: 15),
-          ],
-        ),
-      ),
+          )
+        ],
+      )
     );
   }
 }

@@ -1,34 +1,14 @@
 import 'package:demofile/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../providers/auth_provider.dart';
 import 'verify_documents_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  final TextEditingController firstName = TextEditingController();
-  final TextEditingController surname = TextEditingController();
-  final TextEditingController dob = TextEditingController();
-
-  String gender = "Male";
-  String nationality = "India";
-  String residence = "UAE";
-  String birthCountry = "India";
-
-  /// VALIDATION (SAFE)
-  bool get isValid {
-    return firstName.text.trim().isNotEmpty &&
-        dob.text.trim().isNotEmpty &&
-        nationality.isNotEmpty &&
-        birthCountry.isNotEmpty;
-  }
-
-  Future<void> pickDate() async {
+  Future<void> pickDate(BuildContext context, AuthProvider authProvider) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime(2000),
@@ -37,13 +17,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     if (picked != null) {
-      setState(() {
-        dob.text = "${picked.day}/${picked.month}/${picked.year}";
-      });
+      authProvider.dobController.text = "${picked.day}/${picked.month}/${picked.year}";
+      authProvider.notifyInputChanges();
     }
   }
 
   Widget inputField(
+    AuthProvider authProvider,
     TextEditingController controller,
     String hint, {
     bool readOnly = false,
@@ -60,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         controller: controller,
         readOnly: readOnly,
         onTap: onTap,
-        onChanged: (_) => setState(() {}),
+        onChanged: (_) => authProvider.notifyInputChanges(),
         decoration: InputDecoration(
           hintText: hint,
           border: InputBorder.none,
@@ -95,15 +75,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
-  void dispose() {
-    firstName.dispose();
-    surname.dispose();
-    dob.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -124,28 +98,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-
                     const SizedBox(height: 20),
 
                     const Text("First Name *"),
                     const SizedBox(height: 8),
-                    inputField(firstName, "Enter first name"),
+                    inputField(authProvider, authProvider.firstNameController, "Enter first name"),
 
                     const SizedBox(height: 16),
 
                     const Text("Surname"),
                     const SizedBox(height: 8),
-                    inputField(surname, "Enter surname"),
+                    inputField(authProvider, authProvider.surnameController, "Enter surname"),
 
                     const SizedBox(height: 16),
 
                     const Text("Date of Birth *"),
                     const SizedBox(height: 8),
                     inputField(
-                      dob,
+                      authProvider,
+                      authProvider.dobController,
                       "Select date",
                       readOnly: true,
-                      onTap: pickDate,
+                      onTap: () => pickDate(context, authProvider),
                     ),
 
                     const SizedBox(height: 16),
@@ -153,9 +127,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const Text("Gender *"),
                     const SizedBox(height: 8),
                     dropdown(
-                      value: gender,
+                      value: authProvider.gender,
                       items: ["Male", "Female"],
-                      onChanged: (val) => setState(() => gender = val!),
+                      onChanged: (val) {
+                        if (val != null) authProvider.setGender(val);
+                      },
                     ),
 
                     const SizedBox(height: 16),
@@ -163,9 +139,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const Text("Nationality *"),
                     const SizedBox(height: 8),
                     dropdown(
-                      value: nationality,
+                      value: authProvider.nationality,
                       items: ["India", "UAE"],
-                      onChanged: (val) => setState(() => nationality = val!),
+                      onChanged: (val) {
+                        if (val != null) authProvider.setNationality(val);
+                      },
                     ),
 
                     const SizedBox(height: 16),
@@ -173,31 +151,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const Text("Country of Residence *"),
                     const SizedBox(height: 8),
                     dropdown(
-                      value: residence,
+                      value: authProvider.residence,
                       items: ["UAE", "India"],
-                      onChanged: (val) => setState(() => residence = val!),
+                      onChanged: (val) {
+                        if (val != null) authProvider.setResidence(val);
+                      },
                     ),
-                    SizedBox(height: 16),
-                    Text("Country of Birth *"),
+                    const SizedBox(height: 16),
+                    const Text("Country of Birth *"),
 
                     const SizedBox(height: 8),
                     dropdown(
-                      value: birthCountry,
+                      value: authProvider.birthCountry,
                       items: ["India", "UAE"],
-                      onChanged: (val) => setState(() => birthCountry = val!),
+                      onChanged: (val) {
+                        if (val != null) authProvider.setBirthCountry(val);
+                      },
                     ),
 
                     const SizedBox(height: 16),
                   ],
                 ),
               ),
-              SizedBox(height: 17),
+              const SizedBox(height: 17),
 
               CustomButton(
                 text: "Proceed",
-                enabled: isValid,
+                enabled: authProvider.isProfileValid,
                 onTap: () {
-                  if (!isValid) return;
+                  if (!authProvider.isProfileValid) return;
 
                   Navigator.push(
                     context,
@@ -207,7 +189,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 },
               ),
-
               const SizedBox(height: 20),
             ],
           ),

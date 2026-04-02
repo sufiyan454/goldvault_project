@@ -1,44 +1,12 @@
 import 'package:demofile/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
-
+import '../providers/auth_provider.dart';
 import 'select_server_screen.dart';
 
-class LoginOtpScreen extends StatefulWidget {
-  final String phone;
-
-  const LoginOtpScreen({super.key, required this.phone});
-
-  @override
-  State<LoginOtpScreen> createState() =>
-      _LoginOtpScreenState();
-}
-
-class _LoginOtpScreenState
-    extends State<LoginOtpScreen> {
-
-  List<String> otp = ["", "", "", ""];
-  int index = 0;
-
-  bool get isValid => otp.every((e) => e.isNotEmpty);
-
-  void addNumber(String value) {
-    if (index < 4) {
-      setState(() {
-        otp[index] = value;
-        index++;
-      });
-    }
-  }
-
-  void deleteNumber() {
-    if (index > 0) {
-      setState(() {
-        index--;
-        otp[index] = "";
-      });
-    }
-  }
+class LoginOtpScreen extends StatelessWidget {
+  const LoginOtpScreen({super.key});
 
   Widget otpBox(String value) {
     return Container(
@@ -56,7 +24,7 @@ class _LoginOtpScreenState
     );
   }
 
-  Widget key(String text, {VoidCallback? onTap}) {
+  Widget buildKey(String text, {VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -78,133 +46,128 @@ class _LoginOtpScreenState
 
   @override
   Widget build(BuildContext context) {
-    String masked =
-        "*******${widget.phone.substring(widget.phone.length - 2)}";
+    final authProvider = context.watch<AuthProvider>();
+    final phone = authProvider.phoneController.text;
+    final masked = phone.length > 2 
+        ? "*******${phone.substring(phone.length - 2)}"
+        : phone;
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(
-          children: [
-
-            /// HEADER
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-           
-            const Text(
-              "OTP Verification",
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600),
-            ),
-
-            const SizedBox(height: 8),
-
-           
-            Text(
-              masked,
-              style: const TextStyle(color: Colors.grey),
-            ),
-
-            const SizedBox(height: 5),
-
-            const Text(
-              "OTP Sent to the above number",
-              style: TextStyle(color: Colors.grey),
-            ),
-
-            const SizedBox(height: 25),
-
-            
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceEvenly,
-              children: otp.map((e) => otpBox(e)).toList(),
-            ),
-
-            const SizedBox(height: 15),
-
-            /// RESEND
-            const Text.rich(
-              TextSpan(
-                text: "Didn't receive the OTP ",
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
                 children: [
-                  TextSpan(
-                    text: "Resend OTP",
+                  /// HEADER
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "OTP Verification",
                     style: TextStyle(
-                      color: AppColors.gold,
-                      fontWeight: FontWeight.w500,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 8),
+
+                  Text(
+                    masked,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 5),
+
+                  const Text(
+                    "OTP Sent to the above number",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 25),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: authProvider.loginOtp.map((e) => otpBox(e)).toList(),
+                  ),
+                  const SizedBox(height: 15),
+
+                  /// RESEND
+                  const Text.rich(
+                    TextSpan(
+                      text: "Didn't receive the OTP ",
+                      children: [
+                        TextSpan(
+                          text: "Resend OTP",
+                          style: TextStyle(
+                            color: AppColors.gold,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  if (authProvider.isLoginOtpValid)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: CustomButton(
+                        text: "Verify",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SelectServerScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+
+                  const SizedBox(height: 10),
+
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    color: Colors.grey[300],
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 12,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 1.8,
+                      ),
+                      itemBuilder: (_, i) {
+                        List keys = [
+                          "1","2","3",
+                          "4","5","6",
+                          "7","8","9",
+                          "+ * #","0","⌫"
+                        ];
+
+                        String keyText = keys[i];
+
+                        return buildKey(
+                          keyText,
+                          onTap: () {
+                            if (keyText == "⌫") {
+                              authProvider.deleteLoginOtpNumber();
+                            } else if (keyText != "+ * #") {
+                              authProvider.addLoginOtpNumber(keyText);
+                            }
+                          },
+                        );
+                      },
                     ),
                   ),
                 ],
-              ),
-            ),
-
-            const Spacer(),
-
-            if (isValid)
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20),
-                child: CustomButton(
-                  text: "Verify",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            const SelectServerScreen(),
-                      ),
-                    );
-                  },
-                ),
-              ),
-
-            const SizedBox(height: 10),
-
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.grey[300],
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics:
-                    const NeverScrollableScrollPhysics(),
-                itemCount: 12,
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 1.8,
-                ),
-                itemBuilder: (_, i) {
-                  List keys = [
-                    "1","2","3",
-                    "4","5","6",
-                    "7","8","9",
-                    "+ * #","0","⌫"
-                  ];
-
-                  String keyText = keys[i];
-
-                  return key(
-                    keyText,
-                    onTap: () {
-                      if (keyText == "⌫") {
-                        deleteNumber();
-                      } else if (keyText != "+ * #") {
-                        addNumber(keyText);
-                      }
-                    },
-                  );
-                },
               ),
             ),
           ],
