@@ -38,7 +38,6 @@ class ProofIdentityScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            /// DESCRIPTION
             const Text(
               "In order to complete your registration please upload a copy of your identity with a clear selfie photo to proof the document holder.",
               style: TextStyle(color: Colors.grey),
@@ -53,24 +52,25 @@ class ProofIdentityScreen extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        const KycVerificationScreen(type: "Emirates ID"),
+            SizedBox(
+              height: 55,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFBD832B),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                );
-              },
-              child: Container(
-                height: 55,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(0xFFBD832B),
-                  borderRadius: BorderRadius.circular(8),
                 ),
-                alignment: Alignment.center,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          const KycVerificationScreen(type: "Emirates ID"),
+                    ),
+                  );
+                },
                 child: const Text(
                   "Upload Proof Identity",
                   style: TextStyle(
@@ -84,34 +84,29 @@ class ProofIdentityScreen extends StatelessWidget {
             const SizedBox(height: 15),
 
         
-            GestureDetector(
-              onTap: () {
-              
-              },
-              child: Container(
-                height: 55,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Color(0xFFBD832B),
-                    style: BorderStyle.solid,
+            SizedBox(
+              height: 55,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  shadowColor: Colors.transparent,
+                  side: const BorderSide(color: Color(0xFFBD832B)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  borderRadius: BorderRadius.circular(8),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15),
+                onPressed: () {},
                 child: Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Text(
                       "Take photo with identity",
-                      style: TextStyle(
-                        color: Color(0xFFBD832B)
-                      ),
+                      style: TextStyle(color: Color(0xFFBD832B)),
                     ),
-                    Icon(Icons.arrow_forward,
-                        color: AppColors.gold),
+                    Icon(Icons.arrow_forward, color: AppColors.gold),
                   ],
                 ),
               ),

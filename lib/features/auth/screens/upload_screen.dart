@@ -56,25 +56,34 @@ class UploadScreen extends StatelessWidget {
   }
 
   Widget uploadBox(String title, bool uploaded, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: SizedBox(
         height: 55,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        margin: const EdgeInsets.only(bottom: 15),
-        decoration: BoxDecoration(
-          border: Border.all(color: uploaded ? AppColors.gold : Colors.black26),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              uploaded ? Icons.check_circle : Icons.upload,
-              color: uploaded ? Colors.green : Colors.black54,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            side: BorderSide(
+              color: uploaded ? AppColors.gold : Colors.black26,
             ),
-            const SizedBox(width: 10),
-            Text(title),
-          ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          onPressed: onTap,
+          child: Row(
+            children: [
+              Icon(
+                uploaded ? Icons.check_circle : Icons.upload,
+                color: uploaded ? Colors.green : Colors.black54,
+              ),
+              const SizedBox(width: 10),
+              Text(title, style: const TextStyle(color: Colors.black87)),
+            ],
+          ),
         ),
       ),
     );
@@ -102,7 +111,6 @@ class UploadScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // TOP CONTENT (Cards)
                   Column(
                     children: [
                       Text(
@@ -131,7 +139,6 @@ class UploadScreen extends StatelessWidget {
                     ],
                   ),
 
-                  // BOTTOM CONTENT (Guidelines + Button)
                   Column(
                     children: [
                       const Row(
@@ -159,25 +166,29 @@ class UploadScreen extends StatelessWidget {
 
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
-                        child: GestureDetector(
-                          onTap: uploadProvider.isValid
-                              ? () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const KycProcessingScreen(),
-                                    ),
-                                  );
-                                }
-                              : null,
-                          child: Container(
-                            width: double.infinity,
-                            height: 55,
-                            decoration: BoxDecoration(
-                              color: uploadProvider.isValid ? AppColors.gold : Colors.grey,
-                              borderRadius: BorderRadius.circular(30),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 55,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: uploadProvider.isValid 
+                                  ? AppColors.gold 
+                                  : Colors.grey,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                             ),
-                            alignment: Alignment.center,
+                            onPressed: uploadProvider.isValid
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const KycProcessingScreen(),
+                                      ),
+                                    );
+                                  }
+                                : null,
                             child: const Text(
                               "Continue",
                               style: TextStyle(

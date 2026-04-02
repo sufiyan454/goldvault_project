@@ -80,46 +80,54 @@ class VerifyDocumentsScreen extends StatelessWidget {
   }
 
   Widget docCard(BuildContext context, String title) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        Future.delayed(const Duration(milliseconds: 100), () {
-          if (context.mounted) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => UploadScreen(type: title),
-              ),
-            );
-          }
-        });
-      },
-      child: Container(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 70),
+      child: SizedBox(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 25),
-        margin: const EdgeInsets.symmetric(horizontal: 70),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black26),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.credit_card, size: 40),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(vertical: 25),
+            side: const BorderSide(color: Colors.black26),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Future.delayed(const Duration(milliseconds: 100), () {
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => UploadScreen(type: title),
+                  ),
+                );
+              }
+            });
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.credit_card, size: 40, color: Colors.black87),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              "Status: Pending",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
+              const SizedBox(height: 6),
+              const Text(
+                "Status: Pending",
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
         ),
       ),
     );

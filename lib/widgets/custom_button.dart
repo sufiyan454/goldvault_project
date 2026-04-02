@@ -16,21 +16,24 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: Container(
-        height: 55,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          
-          color: enabled ? Color.fromARGB(255, 189, 131, 43):Colors.white,
-            
-          borderRadius: BorderRadius.circular(30),
+    return SizedBox(
+      height: 55,
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: enabled
+              ? const Color.fromARGB(255, 189, 131, 43)
+              : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
         ),
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(color: Colors.white,fontSize: 22),
+        onPressed: enabled ? onTap : null,
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 22,
           ),
         ),
       ),
