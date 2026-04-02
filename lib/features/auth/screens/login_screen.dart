@@ -21,12 +21,12 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 40, // 40 for top/bottom padding
+                  minHeight: constraints.maxHeight - 40, 
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // TOP CONTENT
+                    // TOP: LOGO
                     Column(
                       children: [
                         const SizedBox(height: 20),
@@ -39,9 +39,12 @@ class LoginScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        
-                        const SizedBox(height: 60), 
-                        
+                      ],
+                    ),
+
+                    // MIDDLE: FORM
+                    Column(
+                      children: [
                         const Text(
                           "Welcome Back!",
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -111,7 +114,6 @@ class LoginScreen extends StatelessWidget {
                         text: "Get OTP",
                         enabled: authProvider.isLoginValid,
                         onTap: () {
-                          // Prevent layout assertions by unfocusing keyboard immediately
                           FocusScope.of(context).unfocus();
                           context.read<AuthProvider>().resetLoginOtp();
                           

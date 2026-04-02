@@ -81,117 +81,129 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - 40,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
 
-                    /// TITLE
-                    const Text(
-                      "Tell us about yourself",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
+                        /// TITLE
+                        const Text(
+                          "Tell us about yourself",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        const Text("First Name *"),
+                        const SizedBox(height: 8),
+                        inputField(authProvider, authProvider.firstNameController, "Enter first name"),
+
+                        const SizedBox(height: 16),
+
+                        const Text("Surname"),
+                        const SizedBox(height: 8),
+                        inputField(authProvider, authProvider.surnameController, "Enter surname"),
+
+                        const SizedBox(height: 16),
+
+                        const Text("Date of Birth *"),
+                        const SizedBox(height: 8),
+                        inputField(
+                          authProvider,
+                          authProvider.dobController,
+                          "Select date",
+                          readOnly: true,
+                          onTap: () => pickDate(context, authProvider),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        const Text("Gender *"),
+                        const SizedBox(height: 8),
+                        dropdown(
+                          value: authProvider.gender,
+                          items: ["Male", "Female"],
+                          onChanged: (val) {
+                            if (val != null) authProvider.setGender(val);
+                          },
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        const Text("Nationality *"),
+                        const SizedBox(height: 8),
+                        dropdown(
+                          value: authProvider.nationality,
+                          items: ["India", "UAE"],
+                          onChanged: (val) {
+                            if (val != null) authProvider.setNationality(val);
+                          },
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        const Text("Country of Residence *"),
+                        const SizedBox(height: 8),
+                        dropdown(
+                          value: authProvider.residence,
+                          items: ["UAE", "India"],
+                          onChanged: (val) {
+                            if (val != null) authProvider.setResidence(val);
+                          },
+                        ),
+                        
+                        const SizedBox(height: 16),
+                        
+                        const Text("Country of Birth *"),
+                        const SizedBox(height: 8),
+                        dropdown(
+                          value: authProvider.birthCountry,
+                          items: ["India", "UAE"],
+                          onChanged: (val) {
+                            if (val != null) authProvider.setBirthCountry(val);
+                          },
+                        ),
+
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: CustomButton(
+                        text: "Proceed",
+                        enabled: authProvider.isProfileValid,
+                        onTap: () {
+                          if (!authProvider.isProfileValid) return;
+                          
+                          FocusScope.of(context).unfocus();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const VerifyDocumentsScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    const SizedBox(height: 20),
-
-                    const Text("First Name *"),
-                    const SizedBox(height: 8),
-                    inputField(authProvider, authProvider.firstNameController, "Enter first name"),
-
-                    const SizedBox(height: 16),
-
-                    const Text("Surname"),
-                    const SizedBox(height: 8),
-                    inputField(authProvider, authProvider.surnameController, "Enter surname"),
-
-                    const SizedBox(height: 16),
-
-                    const Text("Date of Birth *"),
-                    const SizedBox(height: 8),
-                    inputField(
-                      authProvider,
-                      authProvider.dobController,
-                      "Select date",
-                      readOnly: true,
-                      onTap: () => pickDate(context, authProvider),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    const Text("Gender *"),
-                    const SizedBox(height: 8),
-                    dropdown(
-                      value: authProvider.gender,
-                      items: ["Male", "Female"],
-                      onChanged: (val) {
-                        if (val != null) authProvider.setGender(val);
-                      },
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    const Text("Nationality *"),
-                    const SizedBox(height: 8),
-                    dropdown(
-                      value: authProvider.nationality,
-                      items: ["India", "UAE"],
-                      onChanged: (val) {
-                        if (val != null) authProvider.setNationality(val);
-                      },
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    const Text("Country of Residence *"),
-                    const SizedBox(height: 8),
-                    dropdown(
-                      value: authProvider.residence,
-                      items: ["UAE", "India"],
-                      onChanged: (val) {
-                        if (val != null) authProvider.setResidence(val);
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    const Text("Country of Birth *"),
-
-                    const SizedBox(height: 8),
-                    dropdown(
-                      value: authProvider.birthCountry,
-                      items: ["India", "UAE"],
-                      onChanged: (val) {
-                        if (val != null) authProvider.setBirthCountry(val);
-                      },
-                    ),
-
-                    const SizedBox(height: 16),
                   ],
                 ),
               ),
-              const SizedBox(height: 17),
-
-              CustomButton(
-                text: "Proceed",
-                enabled: authProvider.isProfileValid,
-                onTap: () {
-                  if (!authProvider.isProfileValid) return;
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const VerifyDocumentsScreen(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

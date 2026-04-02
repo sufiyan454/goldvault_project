@@ -102,7 +102,7 @@ class UploadScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // TOP CONTENT
+                  // TOP CONTENT (Cards)
                   Column(
                     children: [
                       Text(
@@ -128,9 +128,12 @@ class UploadScreen extends StatelessWidget {
                         uploadProvider.backUploaded,
                          () => showPicker(context, uploadProvider, false),
                       ),
+                    ],
+                  ),
 
-                      const SizedBox(height: 20),
-
+                  // BOTTOM CONTENT (Guidelines + Button)
+                  Column(
+                    children: [
                       const Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -153,40 +156,39 @@ class UploadScreen extends StatelessWidget {
                           Expanded(child: Text("Avoid glare, reflection and shadows.")),
                         ],
                       ),
-                    ],
-                  ),
 
-                  // BOTTOM CONTENT
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: GestureDetector(
-                      onTap: uploadProvider.isValid
-                          ? () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const KycProcessingScreen(),
-                                ),
-                              );
-                            }
-                          : null,
-                      child: Container(
-                        width: double.infinity,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          color: uploadProvider.isValid ? AppColors.gold : Colors.grey,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "Continue",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: GestureDetector(
+                          onTap: uploadProvider.isValid
+                              ? () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const KycProcessingScreen(),
+                                    ),
+                                  );
+                                }
+                              : null,
+                          child: Container(
+                            width: double.infinity,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: uploadProvider.isValid ? AppColors.gold : Colors.grey,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "Continue",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
