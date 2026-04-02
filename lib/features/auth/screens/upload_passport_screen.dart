@@ -22,7 +22,8 @@ class UploadPassportScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: false,
+        leading: Icon(Icons.arrow_back),
       ),
 
       body: Padding(
@@ -48,7 +49,7 @@ class UploadPassportScreen extends StatelessWidget {
               size: 50,
             ),
 
-            const SizedBox(height: 130),
+            const SizedBox(height: 200),
 
             Text(
               "Retake Photo",
@@ -63,7 +64,7 @@ class UploadPassportScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 100),
               child: SizedBox(
-                width: double.infinity,
+                width: 400,
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

@@ -97,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         const SizedBox(height: 20),
 
-                        /// TITLE
+                        
                         const Text(
                           "Tell us about yourself",
                           style: TextStyle(

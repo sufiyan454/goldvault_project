@@ -16,8 +16,9 @@ class ProofIdentityScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: false,
         centerTitle: true,
+        leading: Icon(Icons.arrow_back),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -27,7 +28,7 @@ class ProofIdentityScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
 
-            /// TITLE
+            
             const Text(
               "Proof of identity",
               style: TextStyle(
@@ -38,7 +39,6 @@ class ProofIdentityScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            /// DESCRIPTION
             const Text(
               "In order to complete your registration please upload a copy of your identity with a clear selfie photo to proof the document holder.",
               style: TextStyle(color: Colors.grey),
@@ -53,7 +53,7 @@ class ProofIdentityScreen extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            GestureDetector(
+           GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -68,14 +68,17 @@ class ProofIdentityScreen extends StatelessWidget {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Color(0xFFBD832B),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                alignment: Alignment.center,
-                child: const Text(
-                  "Upload Proof Identity",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: const Text(
+                    "Upload Proof Identity",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
@@ -96,7 +99,7 @@ class ProofIdentityScreen extends StatelessWidget {
                     color: Color(0xFFBD832B),
                     style: BorderStyle.solid,
                   ),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(2),
                 ),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15),

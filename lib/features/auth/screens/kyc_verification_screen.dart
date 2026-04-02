@@ -20,9 +20,9 @@ class KycVerificationScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading:
-            const Icon(Icons.arrow_back, color: Colors.black),
-            centerTitle: true,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        leading: Icon(Icons.arrow_back),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -106,7 +106,7 @@ class KycVerificationScreen extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           color: const Color(0xFFEAD9B5),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(2),
         ),
         child: Row(
           mainAxisAlignment:

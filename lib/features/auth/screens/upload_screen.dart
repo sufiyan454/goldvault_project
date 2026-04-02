@@ -90,6 +90,8 @@ class UploadScreen extends StatelessWidget {
         title: Text("KYC",style: TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: Icon(Icons.arrow_back),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {

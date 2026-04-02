@@ -68,14 +68,6 @@ class LoginOtpScreen extends StatelessWidget {
                     // TOP CONTENT
                     Column(
                       children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                          ],
-                        ),
                         const SizedBox(height: 10),
                         const Text(
                           "OTP Verification",

@@ -23,7 +23,8 @@ class SelectServerScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
+        automaticallyImplyLeading: false,
+        leading: Icon(Icons.arrow_back),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -21,7 +21,8 @@ class UploadEmiratesScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: false,
+        leading: Icon(Icons.arrow_back),
       ),
 
       body: Padding(
@@ -41,14 +42,14 @@ class UploadEmiratesScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            /// SUCCESS ICON
+          
             const Icon(
               Icons.check_circle,
               color: Colors.green,
               size: 50,
             ),
 
-            const SizedBox(height: 140),
+            const SizedBox(height: 210),
 
             const Text(
               "Retake Photo",
@@ -63,7 +64,7 @@ class UploadEmiratesScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 100),
               child: SizedBox(
-                width: double.infinity,
+                width: 400,
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

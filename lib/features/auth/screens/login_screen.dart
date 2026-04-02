@@ -5,8 +5,21 @@ import '../../../core/constants/colors.dart';
 import '../providers/auth_provider.dart';
 import 'login_otp_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthProvider>().phoneController.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +34,12 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 40, 
+                  minHeight: constraints.maxHeight - 40,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // TOP: LOGO
+                   
                     Column(
                       children: [
                         const SizedBox(height: 20),
@@ -42,7 +55,6 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
 
-                    // MIDDLE: FORM
                     Column(
                       children: [
                         const Text(
@@ -107,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
 
-                    // BOTTOM BUTTON
+            
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: CustomButton(
@@ -116,17 +128,12 @@ class LoginScreen extends StatelessWidget {
                         onTap: () {
                           FocusScope.of(context).unfocus();
                           context.read<AuthProvider>().resetLoginOtp();
-                          
-                          Future.delayed(const Duration(milliseconds: 100), () {
-                            if (context.mounted) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const LoginOtpScreen(),
-                                ),
-                              );
-                            }
-                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const LoginOtpScreen(),
+                            ),
+                          );
                         },
                       ),
                     ),

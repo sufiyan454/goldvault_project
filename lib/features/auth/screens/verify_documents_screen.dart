@@ -13,7 +13,8 @@ class VerifyDocumentsScreen extends StatelessWidget {
         title: const Text("KYC"),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
+        automaticallyImplyLeading: false,
+        leading: Icon(Icons.arrow_back),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -53,7 +54,7 @@ class VerifyDocumentsScreen extends StatelessWidget {
                     ],
                   ),
 
-                  // BOTTOM CONTENT
+               
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Container(
@@ -97,7 +98,7 @@ class VerifyDocumentsScreen extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 25),
-        margin: const EdgeInsets.symmetric(horizontal: 70),
+        margin: const EdgeInsets.symmetric(horizontal: 160),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black26),
           borderRadius: BorderRadius.circular(16),

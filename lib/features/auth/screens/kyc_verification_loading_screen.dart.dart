@@ -36,8 +36,7 @@ class _KycVerificationLoadingScreenState
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading:
-            const Icon(Icons.arrow_back, color: Colors.black),
+        automaticallyImplyLeading: false,
       ),
       body: const Center(
         child: Column(

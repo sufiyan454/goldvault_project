@@ -99,7 +99,7 @@ class OtpScreen extends StatelessWidget {
                       ],
                     ),
 
-                    // BOTTOM CONTENT
+                  
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: CustomButton(
