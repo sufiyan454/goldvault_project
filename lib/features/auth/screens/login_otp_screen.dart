@@ -55,12 +55,14 @@ class LoginOtpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                children: [
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
                   /// HEADER
                   Row(
                     children: [
@@ -170,7 +172,9 @@ class LoginOtpScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ],
+          ),
+            );
+          },
         ),
       ),
     );

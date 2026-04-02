@@ -91,14 +91,16 @@ class UploadScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
                   const SizedBox(height: 10),
 
                   Text(
@@ -187,9 +189,11 @@ class UploadScreen extends StatelessWidget {
                 ],
               ),
             ),
-          )
-        ],
-      )
+            ),
+          ),
+        );
+      },
+        ),
     );
   }
 }

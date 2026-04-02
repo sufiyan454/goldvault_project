@@ -15,14 +15,16 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
                     const SizedBox(height: 40),
                     const Icon(Icons.shield, size: 50, color: AppColors.gold),
                     const SizedBox(height: 10),
@@ -35,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     
-                    /// TITLE
+                    
                     const Text(
                       "Welcome Back!",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -101,7 +103,7 @@ class LoginScreen extends StatelessWidget {
                       text: "Get OTP",
                       enabled: authProvider.isLoginValid,
                       onTap: () {
-                        // Reset OTP when entering login otp screen
+                      
                         context.read<AuthProvider>().resetLoginOtp();
                         Navigator.push(
                           context,
@@ -115,8 +117,10 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            )
-          ],
+            ),
+          ),
+            );
+          },
         ),
       ),
     );
